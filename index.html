@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Painel Gestão">
+<meta name="theme-color" content="#171B24">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<title>Painel de Gestão — Angelica Studios</title>
+<style>
+  :root {
+    --bg: #EEF1F6;
+    --surface: #FFFFFF;
+    --surface-hover: #F7F8FB;
+    --border: #DCE1EA;
+    --ink: #1A1F2B;
+    --muted: #5B6472;
+    --accent: #A9762F;
+    --accent-ink: #6E4B18;
+    --structural: #2E3A59;
+    --shadow: 0 1px 2px rgba(26,31,43,0.04), 0 8px 20px -12px rgba(26,31,43,0.18);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10131A;
+      --surface: #1B202B;
+      --surface-hover: #212736;
+      --border: #2B3242;
+      --ink: #E7EAF0;
+      --muted: #8891A3;
+      --accent: #D9A85C;
+      --accent-ink: #F1C98C;
+      --structural: #A8B3CC;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10131A;
+    --surface: #1B202B;
+    --surface-hover: #212736;
+    --border: #2B3242;
+    --ink: #E7EAF0;
+    --muted: #8891A3;
+    --accent: #D9A85C;
+    --accent-ink: #F1C98C;
+    --structural: #A8B3CC;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.55);
+  }
+  :root[data-theme="light"] {
+    --bg: #EEF1F6;
+    --surface: #FFFFFF;
+    --surface-hover: #F7F8FB;
+    --border: #DCE1EA;
+    --ink: #1A1F2B;
+    --muted: #5B6472;
+    --accent: #A9762F;
+    --accent-ink: #6E4B18;
+    --structural: #2E3A59;
+    --shadow: 0 1px 2px rgba(26,31,43,0.04), 0 8px 20px -12px rgba(26,31,43,0.18);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+
+  header.hero {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 44px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+
+  .wordmark {
+    font-family: ui-serif, Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: clamp(32px, 5vw, 44px);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    margin: 2px 0 0;
+    text-wrap: balance;
+  }
+
+  .category {
+    margin-bottom: 36px;
+  }
+  .category:last-child {
+    margin-bottom: 0;
+  }
+
+  .category-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    margin: 0 0 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    min-height: 92px;
+    padding: 24px 26px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+  }
+
+  .card:hover {
+    background: var(--surface-hover);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .card:active {
+    background: var(--surface-hover);
+    transform: scale(0.98);
+  }
+
+  .card:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .card-name {
+    font-size: 21px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  footer {
+    margin-top: 40px;
+    font-size: 12.5px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="hero">
+    <span class="eyebrow">Angelica Studios</span>
+    <h1 class="wordmark">Painel de Gestão</h1>
+  </header>
+
+  <div class="category">
+    <h2 class="category-title">Locação</h2>
+    <div class="grid">
+      <a class="card" href="https://inquilinos.angelicastudios.com.br" target="_blank" rel="noopener">
+        <p class="card-name">Inquilinos</p>
+        <p class="card-desc">Cadastro de apartamentos, agenda e assinatura digital de contratos.</p>
+      </a>
+
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/gestao_contratos.html" target="_blank" rel="noopener">
+        <p class="card-name">Contratos</p>
+        <p class="card-desc">Gerar, listar e baixar contratos em PDF por apartamento.</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="category">
+    <h2 class="category-title">Financeiro</h2>
+    <div class="grid">
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/pagamentos.html" target="_blank" rel="noopener">
+        <p class="card-name">Recebimentos</p>
+        <p class="card-desc">Quem pagou, vencimentos e atrasos, por mês ou ano — enviado por WhatsApp toda manhã às 08:00.</p>
+      </a>
+
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/comparativo.html" target="_blank" rel="noopener">
+        <p class="card-name">Comparativo Anual</p>
+        <p class="card-desc">2024 x 2025 x 2026 por unidade, mês a mês, com previsão pros meses ainda não fechados.</p>
+      </a>
+
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/boletos.html" target="_blank" rel="noopener">
+        <p class="card-name">Boletos</p>
+        <p class="card-desc">Boletos de aluguel emitidos e pagos no mês, separados por conta PJ e PF, com o líquido já sem a taxa do Asaas.</p>
+      </a>
+
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/boletos-limpeza.html" target="_blank" rel="noopener">
+        <p class="card-name">Boletos Limpeza</p>
+        <p class="card-desc">Controle da taxa de limpeza cobrada por faxina — emitidos, pagos e em aberto, separado do aluguel.</p>
+      </a>
+
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/cobranca-avulsa.html" target="_blank" rel="noopener">
+        <p class="card-name">Cobrança Avulsa</p>
+        <p class="card-desc">Cobrar algo fora do aluguel — taxa, multa, reparo. Gera o Pix e envia no WhatsApp depois da sua conferência.</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="category">
+    <h2 class="category-title">Operação</h2>
+    <div class="grid">
+      <a class="card" href="https://lavanderia.angelicastudios.com.br" target="_blank" rel="noopener">
+        <p class="card-name">Lavanderia</p>
+        <p class="card-desc">Status das máquinas, sessões ativas e histórico de uso.</p>
+      </a>
+
+      <a class="card" href="/manutencao-angelica/gestor-mobile.html">
+        <p class="card-name">Manutenção · Gestor</p>
+        <p class="card-desc">Todas as tarefas, equipe e arquivo.</p>
+      </a>
+
+      <a class="card" href="/manutencao-angelica/equipe-mobile.html">
+        <p class="card-name">Manutenção · Equipe</p>
+        <p class="card-desc">Tela do funcionário: entra pelo nome e vê só as próprias tarefas.</p>
+      </a>
+
+      <a class="card" href="/manutencao-angelica/limpeza-gestor.html">
+        <p class="card-name">Limpeza · Gestor</p>
+        <p class="card-desc">Agenda semanal de limpeza, disparo de WhatsApp e criação de tarefas por executor.</p>
+      </a>
+
+      <a class="card" href="/manutencao-angelica/apontamento-gestor.html">
+        <p class="card-name">Apontamento · Gestor</p>
+        <p class="card-desc">Horas dos colaboradores por Angelica, custo estimado e real do mês, rateio por unidade.</p>
+      </a>
+
+      <!-- TEMPORÁRIO (2026-08-04): card de teste da barra do navegador. Remover depois. -->
+      <a class="card" href="/manutencao-angelica/pwa-check.html">
+        <p class="card-name">🔍 Teste de instalação</p>
+        <p class="card-desc">Temporário: mostra se o sistema abriu como app ou dentro do navegador.</p>
+      </a>
+    </div>
+  </div>
+
+  <footer>Apareceu um sistema novo? É só me chamar que eu adiciono um atalho aqui.</footer>
+</div>
+
+<script>
+// Service worker: sem ele o Android trata o hub como atalho comum e abre dentro do
+// Chrome, com a barra de endereço por cima, em vez de instalar como app de tela cheia.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(e => console.warn('SW não registrado:', e));
+  });
+}
+</script>
+</body>
+</html>
