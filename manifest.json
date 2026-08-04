@@ -1,0 +1,18 @@
+{
+  "id": "/",
+  "name": "Painel de Gestão — Angelica Studios",
+  "short_name": "Painel Gestão",
+  "description": "Atalhos para todos os sistemas da Angelica Studios",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#171B24",
+  "theme_color": "#171B24",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icon-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any" }
+  ]
+}
