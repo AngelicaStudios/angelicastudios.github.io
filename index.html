@@ -282,6 +282,20 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(e => console.warn('SW não registrado:', e));
   });
 }
+
+// Os painéis internos (/manutencao-angelica/...) são links relativos de propósito: dentro
+// do app instalado eles precisam abrir na mesma janela, senão voltam a aparecer com a
+// barra de endereço em cima. Mas no navegador comum isso substitui o hub — e fechar a
+// aba fecha tudo junto. Então só aqui, fora do app instalado, eles viram aba nova.
+const appInstalado = window.matchMedia('(display-mode: standalone)').matches
+                  || window.matchMedia('(display-mode: fullscreen)').matches
+                  || window.navigator.standalone === true;
+if (!appInstalado) {
+  document.querySelectorAll('.card[href^="/"]').forEach(card => {
+    card.target = '_blank';
+    card.rel    = 'noopener';
+  });
+}
 </script>
 </body>
 </html>
