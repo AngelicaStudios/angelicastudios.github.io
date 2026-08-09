@@ -77,14 +77,22 @@
   .page {
     max-width: 960px;
     margin: 0 auto;
-    padding: 56px 24px 80px;
+    padding: 0 24px 80px;
   }
 
+  /* Cabeçalho congela no topo e os módulos rolam por baixo. O fundo é opaco de
+     propósito — sem ele os cards apareceriam através do título ao rolar. */
   header.hero {
+    position: sticky;
+    top: 0;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin-bottom: 44px;
+    padding: 26px 0 16px;
+    margin-bottom: 30px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
   }
 
   .eyebrow {
