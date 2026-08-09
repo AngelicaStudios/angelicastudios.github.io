@@ -207,17 +207,17 @@
   <div class="category">
     <h2 class="category-title">Locação</h2>
     <div class="grid">
-      <a class="card" href="https://inquilinos.angelicastudios.com.br" target="_blank" rel="noopener">
+      <a class="card" href="https://inquilinos.angelicastudios.com.br" target="_blank">
         <p class="card-name">Inquilinos</p>
         <p class="card-desc">Cadastro de apartamentos, agenda e assinatura digital de contratos.</p>
       </a>
 
-      <a class="card" href="https://inquilinos.angelicastudios.com.br/gestao_contratos.html" target="_blank" rel="noopener">
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/gestao_contratos.html" target="_blank">
         <p class="card-name">Contratos</p>
         <p class="card-desc">Gerar, listar e baixar contratos em PDF por apartamento.</p>
       </a>
 
-      <a class="card" href="https://inquilinos.angelicastudios.com.br/contratos.html" target="_blank" rel="noopener">
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/contratos.html" target="_blank">
         <p class="card-name">Disponibilidade</p>
         <p class="card-desc">Studios que vão ficar vagos e contratos vencendo no prazo que você escolher, com quem entra depois.</p>
       </a>
@@ -227,27 +227,27 @@
   <div class="category">
     <h2 class="category-title">Financeiro</h2>
     <div class="grid">
-      <a class="card" href="https://inquilinos.angelicastudios.com.br/pagamentos.html" target="_blank" rel="noopener">
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/pagamentos.html" target="_blank">
         <p class="card-name">Recebimentos</p>
         <p class="card-desc">Quem pagou, vencimentos e atrasos, por mês ou ano — enviado por WhatsApp toda manhã às 08:00.</p>
       </a>
 
-      <a class="card" href="https://inquilinos.angelicastudios.com.br/comparativo.html" target="_blank" rel="noopener">
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/comparativo.html" target="_blank">
         <p class="card-name">Comparativo Anual</p>
         <p class="card-desc">2024 x 2025 x 2026 por unidade, mês a mês, com previsão pros meses ainda não fechados.</p>
       </a>
 
-      <a class="card" href="https://inquilinos.angelicastudios.com.br/boletos.html" target="_blank" rel="noopener">
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/boletos.html" target="_blank">
         <p class="card-name">Boletos</p>
         <p class="card-desc">Boletos de aluguel emitidos e pagos no mês, separados por conta PJ e PF, com o líquido já sem a taxa do Asaas.</p>
       </a>
 
-      <a class="card" href="https://inquilinos.angelicastudios.com.br/boletos-limpeza.html" target="_blank" rel="noopener">
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/boletos-limpeza.html" target="_blank">
         <p class="card-name">Boletos Limpeza</p>
         <p class="card-desc">Controle da taxa de limpeza cobrada por faxina — emitidos, pagos e em aberto, separado do aluguel.</p>
       </a>
 
-      <a class="card" href="https://inquilinos.angelicastudios.com.br/cobranca-avulsa.html" target="_blank" rel="noopener">
+      <a class="card" href="https://inquilinos.angelicastudios.com.br/cobranca-avulsa.html" target="_blank">
         <p class="card-name">Cobrança Avulsa</p>
         <p class="card-desc">Cobrar algo fora do aluguel — taxa, multa, reparo. Gera o Pix e envia no WhatsApp depois da sua conferência.</p>
       </a>
@@ -257,7 +257,7 @@
   <div class="category">
     <h2 class="category-title">Operação</h2>
     <div class="grid">
-      <a class="card" href="https://lavanderia.angelicastudios.com.br" target="_blank" rel="noopener">
+      <a class="card" href="https://lavanderia.angelicastudios.com.br" target="_blank">
         <p class="card-name">Lavanderia</p>
         <p class="card-desc">Status das máquinas, sessões ativas e histórico de uso.</p>
       </a>
@@ -306,9 +306,13 @@ const appInstalado = window.matchMedia('(display-mode: standalone)').matches
 if (!appInstalado) {
   document.querySelectorAll('.card[href^="/"]').forEach(card => {
     card.target = '_blank';
-    card.rel    = 'noopener';
   });
 }
+
+// NAO colocar rel="noopener" nos cards. Sem o vinculo com esta aba, o navegador
+// proibe o modulo de se fechar sozinho, e o botao "Menu" dele acaba abrindo um
+// SEGUNDO painel em vez de voltar pra este. Todos os destinos sao sistemas
+// nossos (inquilinos / lavanderia / este dominio), entao o vinculo e seguro.
 </script>
 </body>
 </html>
