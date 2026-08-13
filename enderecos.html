@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endereços do Sistema</title>
+<style>
+:root{
+  --acento:      #8a5f22;
+  --acento-claro:#D9A85C;
+  --acento-d:    #6e4b18;
+  --acento-bg:   #faf4e8;
+  --acento-bg-h: #f2e5cd;
+
+  --azul-info: #2563eb;
+  --azul-esc:  #1e293b;
+
+  --fundo:  #e4e8ee;
+  --branco: #ffffff;
+  --borda:  #e2e8f0;
+  --texto:  #1e293b;
+  --texto2: #64748b;
+  --cinza:  #64748b;
+
+  --verde:     #15803d;  --verde-bg:    #dcfce7;
+  --ambar:     #b45309;  --ambar-bg:    #fef3c7;
+  --vermelho:  #b91c1c;  --vermelho-bg: #fee2e2;
+
+  --sombra: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --radius: 10px;
+  --largura: 1600px;
+  --h-cabecalho: 62px;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
+      background:var(--fundo); color:var(--texto); min-height:100vh; }
+
+.topo{ position:sticky; top:0; z-index:100; }
+
+header{ background:var(--azul-esc); color:#fff; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+.cabecalho-int{
+  max-width:var(--largura); margin:0 auto; padding:14px 24px 12px;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+header .titulo{ display:flex; flex-direction:column; gap:1px; }
+header h1{ font-size:1.05rem; font-weight:700; line-height:1.2;
+           color:var(--acento-claro); letter-spacing:.01em; }
+header .sub{ font-size:.72rem; color:#94a3b8; }
+
+.btn-painel{
+  flex-shrink:0; text-decoration:none; padding:7px 14px; border-radius:8px;
+  border:1.5px solid var(--acento-claro); background:rgba(217,168,92,.14);
+  color:var(--acento-claro); font-size:.82rem; font-weight:600;
+  white-space:nowrap; transition:all .12s;
+}
+.btn-painel:hover{ background:rgba(217,168,92,.26); border-color:#f1c98c; color:#f1c98c; }
+
+nav{ background:var(--branco); border-bottom:1px solid var(--borda); }
+nav .abas{ max-width:var(--largura); margin:0 auto; padding:10px 24px;
+           display:flex; gap:6px; }
+nav button{
+  background:#f1f5f9; border:1.5px solid #cbd5e1; border-radius:8px;
+  padding:8px 16px; font-size:.88rem; font-weight:600; cursor:pointer;
+  color:var(--texto2); white-space:nowrap; transition:all .12s;
+}
+nav button:hover{ background:#e2e8f0; border-color:var(--cinza); color:var(--texto); }
+nav button.active{ background:var(--acento-bg); border-color:var(--acento); color:var(--acento); }
+
+main{ max-width:var(--largura); margin:16px auto; padding:0 24px; }
+
+.zona-filtros{
+  position:sticky; top:var(--h-cabecalho); z-index:90;
+  background:var(--branco); padding:12px 0 8px;
+}
+.linha-filtros{ display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; }
+.linha-filtros label{ display:flex; flex-direction:column; gap:4px;
+  font-size:.74rem; font-weight:600; color:var(--texto2); }
+
+input{
+  padding:9px 12px; border:1.5px solid #cbd5e1; border-radius:8px;
+  font-size:.92rem; color:var(--texto); background:var(--branco); outline:none;
+}
+input:focus{ border-color:var(--acento); }
+#busca{ min-width:320px; }
+
+.card{ background:var(--branco); border-radius:12px; box-shadow:var(--sombra);
+       padding:24px; margin-bottom:24px; }
+.card h2{ font-size:1.1rem; margin-bottom:16px; color:var(--texto); }
+
+/* ── Lista de endereços ─────────────────────────────────────────────────────
+   O nome é o link; o endereço fica abaixo em cinza, para dar de conferir sem
+   abrir. O botão de copiar é irmão do link, nunca dentro dele. */
+.item{
+  display:flex; align-items:center; gap:12px;
+  padding:11px 4px; border-bottom:1px solid #f0f0f0;
+}
+.item:last-child{ border-bottom:none; }
+.item:hover{ background:#faf8f3; }
+.item-txt{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.item-nome{
+  font-size:.95rem; font-weight:600; color:var(--acento);
+  text-decoration:none; word-break:break-word;
+}
+.item-nome:hover{ color:var(--acento-d); text-decoration:underline; }
+.item-nome.sem-link{ color:var(--texto); }
+.item-url{ font-size:.78rem; color:var(--texto2); word-break:break-all; }
+.item-selos{ flex:0 0 auto; display:flex; gap:6px; }
+.item-acao{ flex:0 0 auto; }
+
+.badge{ display:inline-block; padding:3px 10px; border-radius:20px;
+        font-size:.78rem; font-weight:600; white-space:nowrap; }
+.badge.verde{ background:var(--verde-bg); color:var(--verde); }
+.badge.ambar{ background:var(--ambar-bg); color:var(--ambar); }
+.badge.vermelho{ background:var(--vermelho-bg); color:var(--vermelho); }
+.badge.neutro{ background:#f1f5f9; color:var(--texto2); }
+
+.btn{
+  padding:9px 18px; border-radius:8px; border:1.5px solid #cbd5e1;
+  background:#f1f5f9; color:var(--texto2); font-size:.85rem; font-weight:600;
+  cursor:pointer; transition:all .12s;
+}
+.btn:hover{ border-color:var(--cinza); background:#e2e8f0; color:var(--texto); }
+.btn-primary{ background:var(--acento-bg); border-color:var(--acento); color:var(--acento); }
+.btn-primary:hover{ background:var(--acento-bg-h); border-color:var(--acento-d); color:var(--acento-d); }
+.btn-success{ background:var(--verde-bg); border-color:var(--verde); color:var(--verde); }
+.btn-sm{ padding:5px 12px; font-size:.78rem; }
+
+.vazio{ padding:36px 12px; text-align:center; color:var(--texto2); font-size:.9rem; }
+
+@media (max-width:640px){
+
+  .cabecalho-int{ padding:11px 16px 9px; gap:10px; }
+  header h1{ font-size:.95rem; }
+  header .sub{ font-size:.7rem; }
+  .btn-painel{ padding:6px 11px; font-size:.75rem; }
+
+  main{ padding:0 12px; }
+  .card{ padding:16px; margin-bottom:16px; border-radius:10px; }
+
+  nav{ overflow-x:auto; scrollbar-width:none; }
+  nav::-webkit-scrollbar{ display:none; }
+  nav .abas{ flex-wrap:nowrap; padding:8px 12px; gap:5px; }
+  nav .abas > *{ flex:0 0 auto; }
+
+  .linha-filtros{
+    display:flex; flex-wrap:nowrap; align-items:stretch; gap:8px;
+    overflow-x:auto; overflow-y:hidden; scrollbar-width:none;
+    -webkit-overflow-scrolling:touch; padding-bottom:2px;
+  }
+  .linha-filtros::-webkit-scrollbar{ display:none; }
+  .linha-filtros > *{ flex:1 0 auto; }
+  #busca{ min-width:0; width:100%; }
+
+  /* O item vira dois andares: texto em cima, selos e botão embaixo — assim o
+     endereço não fica espremido em coluna de 60px. */
+  .item{ flex-wrap:wrap; gap:8px; padding:12px 2px; }
+  .item-txt{ flex:1 1 100%; }
+  .item-nome{ font-size:.92rem; }
+  .item-url{ font-size:.72rem; }
+
+  nav button, .btn, .btn-sm, .btn-painel{
+    min-height:40px; display:inline-flex; align-items:center; justify-content:center;
+  }
+  input{ min-height:40px; }
+  .badge{ min-height:26px; display:inline-flex; align-items:center; font-size:.74rem; }
+
+  .rola-lateral{
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent);
+            mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent);
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="topo">
+<header>
+  <div class="cabecalho-int">
+    <div class="titulo">
+      <h1>Angelica Studios</h1>
+      <span class="sub">Endereços do Sistema</span>
+    </div>
+    <a class="btn-painel" href="https://angelicastudios.github.io/"
+       onclick="return voltarAoMenu(event)">&#8592; Menu</a>
+  </div>
+</header>
+
+<nav>
+  <div class="abas" id="abas"></div>
+</nav>
+</div><!-- /topo -->
+
+<main>
+
+  <div class="zona-filtros">
+    <div class="linha-filtros">
+      <label>Buscar
+        <input type="search" id="busca" placeholder="nome do módulo ou endereço"
+               oninput="render()">
+      </label>
+    </div>
+  </div>
+
+  <div id="lista"></div>
+
+</main>
+
+<script>
+/* Levantado no VPS em 13/08/2026 (nginx + systemd) e no repo do hub.
+   Ao mexer aqui, mexer só nesta lista — o resto da tela se monta sozinho. */
+var ENDERECOS = [
+
+  /* ── Locação ─────────────────────────────────────────────────────────── */
+  { cat:'Locação', nome:'Inquilinos — painel',
+    url:'https://inquilinos.angelicastudios.com.br', onde:'VPS' },
+  { cat:'Locação', nome:'Contratos — gerar',
+    url:'https://inquilinos.angelicastudios.com.br/gestao_contratos.html', onde:'VPS' },
+  { cat:'Locação', nome:'Contratos — relatório de vencimentos',
+    url:'https://inquilinos.angelicastudios.com.br/contratos.html', onde:'VPS' },
+  { cat:'Locação', nome:'Inquilinos — versão celular',
+    url:'https://inquilinos.angelicastudios.com.br/gestao_mobile.html', onde:'VPS' },
+  { cat:'Locação', nome:'Cadastro de inquilino — atalho',
+    url:'https://cadastro.angelicastudios.com.br', onde:'VPS', quem:'Locatário' },
+  { cat:'Locação', nome:'Formulário de cadastro',
+    url:'https://inquilinos.angelicastudios.com.br/formulario_inquilino.html',
+    onde:'VPS', quem:'Locatário' },
+  { cat:'Locação', nome:'Assinatura de contrato',
+    url:'https://inquilinos.angelicastudios.com.br/assinar.html',
+    onde:'VPS', quem:'Locatário' },
+
+  /* ── Financeiro ──────────────────────────────────────────────────────── */
+  { cat:'Financeiro', nome:'Pagamentos',
+    url:'https://inquilinos.angelicastudios.com.br/pagamentos.html', onde:'VPS' },
+  { cat:'Financeiro', nome:'Comparativo anual',
+    url:'https://inquilinos.angelicastudios.com.br/comparativo.html', onde:'VPS' },
+  { cat:'Financeiro', nome:'Boletos',
+    url:'https://inquilinos.angelicastudios.com.br/boletos.html', onde:'VPS' },
+  { cat:'Financeiro', nome:'Boletos Limpeza',
+    url:'https://inquilinos.angelicastudios.com.br/boletos-limpeza.html', onde:'VPS' },
+  { cat:'Financeiro', nome:'Cobrança avulsa',
+    url:'https://inquilinos.angelicastudios.com.br/cobranca-avulsa.html', onde:'VPS' },
+  { cat:'Financeiro', nome:'Gestão Saleskammerer',
+    url:'https://sk.angelicastudios.com.br', onde:'VPS', quem:'Pessoal' },
+
+  /* ── Operação ────────────────────────────────────────────────────────── */
+  { cat:'Operação', nome:'Lavanderia — painel',
+    url:'https://lavanderia.angelicastudios.com.br', onde:'VPS' },
+  { cat:'Operação', nome:'Lavanderia — usar máquina (QR code)',
+    url:'https://lavanderia.angelicastudios.com.br/usar.html',
+    onde:'VPS', quem:'Locatário' },
+  { cat:'Operação', nome:'Lavanderia — imprimir QR codes',
+    url:'https://lavanderia.angelicastudios.com.br/static/print-qrcodes.html', onde:'VPS' },
+  { cat:'Operação', nome:'Manutenção — Gestor',
+    url:'https://angelicastudios.github.io/manutencao-angelica/gestor-mobile.html',
+    onde:'GitHub Pages' },
+  { cat:'Operação', nome:'Manutenção — Equipe',
+    url:'https://angelicastudios.github.io/manutencao-angelica/equipe-mobile.html',
+    onde:'GitHub Pages', quem:'Equipe' },
+  { cat:'Operação', nome:'Limpeza — Gestor',
+    url:'https://angelicastudios.github.io/manutencao-angelica/limpeza-gestor.html',
+    onde:'GitHub Pages' },
+  { cat:'Operação', nome:'Apontamento de Horas — Gestor',
+    url:'https://angelicastudios.github.io/manutencao-angelica/apontamento-gestor.html',
+    onde:'GitHub Pages' },
+
+  /* ── Sistema ─────────────────────────────────────────────────────────── */
+  { cat:'Sistema', nome:'Hub de atalhos',
+    url:'https://angelicastudios.github.io/', onde:'GitHub Pages' },
+  { cat:'Sistema', nome:'Site novo (WordPress)',
+    url:'https://novosite.angelicastudios.com.br', onde:'VPS' },
+  { cat:'Sistema', nome:'Limpeza — serviço',
+    url:'https://limpeza.angelicastudios.com.br', onde:'VPS', semTela:true },
+  { cat:'Sistema', nome:'Cobrança — serviço',
+    url:'https://inquilinos.angelicastudios.com.br/pix/', onde:'VPS', semTela:true },
+  { cat:'Sistema', nome:'Manutenção — serviço',
+    url:'rotina automática, sem endereço', onde:'VPS', semTela:true, semUrl:true }
+];
+
+var CATEGORIAS = ['Todos', 'Locação', 'Financeiro', 'Operação', 'Sistema'];
+var catAtiva = 'Todos';
+
+/* O hub abre cada módulo em aba nova; se o Menu navegasse, ficariam dois
+   painéis abertos. Então fecha a aba e devolve o foco ao hub que já está lá. */
+function voltarAoMenu(e){
+  e.preventDefault();
+  var destino = 'https://angelicastudios.github.io/';
+  window.close();
+  setTimeout(function(){ location.href = destino; }, 150);
+  return false;
+}
+
+/* Fora do app instalado, abrir cada endereço em aba nova preserva o índice.
+   Dentro do app, aba nova viraria janela de navegador com barra de endereço —
+   aí segue na mesma janela, igual o hub faz. */
+function ehAppInstalado(){
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.matchMedia('(display-mode: fullscreen)').matches ||
+         window.navigator.standalone === true;
+}
+
+function escapar(t){
+  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                  .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* Abas montadas por DOM, não por string de onclick: o nome da categoria entre
+   aspas dentro de um atributo já delimitado por aspas fecha o atributo antes da
+   hora e o clique deixa de filtrar, sem erro nenhum no console. */
+function montarAbas(){
+  var alvo = document.getElementById('abas');
+  alvo.innerHTML = '';
+  CATEGORIAS.forEach(function(c){
+    var b = document.createElement('button');
+    b.textContent = c;
+    if (c === catAtiva) b.className = 'active';
+    b.addEventListener('click', function(){ trocarAba(c, b); });
+    alvo.appendChild(b);
+  });
+}
+
+function trocarAba(cat, botao){
+  catAtiva = cat;
+  document.querySelectorAll('nav button').forEach(function(b){ b.classList.remove('active'); });
+  botao.classList.add('active');
+  render();
+}
+
+function copiar(texto, botao){
+  var pronto = function(){
+    var antes = botao.textContent;
+    botao.textContent = 'Copiado';
+    botao.classList.add('btn-success');
+    setTimeout(function(){
+      botao.textContent = antes;
+      botao.classList.remove('btn-success');
+    }, 1500);
+  };
+  if (navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(texto).then(pronto);
+    return;
+  }
+  /* file:// e http:// não são contexto seguro — sem esse caminho o botão
+     simplesmente não faria nada, sem erro nenhum na tela. */
+  var campo = document.createElement('textarea');
+  campo.value = texto;
+  campo.style.position = 'fixed';
+  campo.style.opacity = '0';
+  document.body.appendChild(campo);
+  campo.select();
+  try { document.execCommand('copy'); pronto(); } catch(err){}
+  document.body.removeChild(campo);
+}
+
+function linhaItem(e){
+  var selos = '<span class="badge neutro">' + e.onde + '</span>';
+  if (e.quem)    selos += '<span class="badge ambar">' + e.quem + '</span>';
+  if (e.semTela) selos += '<span class="badge neutro">Sem tela</span>';
+
+  var alvo = ehAppInstalado() ? '' : ' target="_blank" rel="noopener"';
+  var nome = e.semUrl
+    ? '<span class="item-nome sem-link">' + escapar(e.nome) + '</span>'
+    : '<a class="item-nome" href="' + escapar(e.url) + '"' + alvo + '>' +
+        escapar(e.nome) + '</a>';
+
+  /* O endereço vai em data-url e o clique é pego por delegação, mesma razão das
+     abas: endereço dentro de onclick depende de escapar tudo certo. */
+  var acao = e.semUrl ? '' :
+    '<div class="item-acao"><button class="btn btn-sm" data-url="' +
+    escapar(e.url) + '">Copiar</button></div>';
+
+  return '<div class="item">' +
+           '<div class="item-txt">' + nome +
+             '<span class="item-url">' + escapar(e.url) + '</span>' +
+           '</div>' +
+           '<div class="item-selos">' + selos + '</div>' +
+           acao +
+         '</div>';
+}
+
+function render(){
+  var termo = document.getElementById('busca').value.trim().toLowerCase();
+
+  var lista = ENDERECOS.filter(function(e){
+    if (catAtiva !== 'Todos' && e.cat !== catAtiva) return false;
+    if (!termo) return true;
+    return (e.nome + ' ' + e.url + ' ' + e.cat).toLowerCase().indexOf(termo) >= 0;
+  });
+
+  var alvo = document.getElementById('lista');
+  if (!lista.length){
+    alvo.innerHTML = '<div class="card"><div class="vazio">Nenhum endereço encontrado.</div></div>';
+    return;
+  }
+
+  var grupos = [];
+  lista.forEach(function(e){
+    var g = grupos.filter(function(x){ return x.cat === e.cat; })[0];
+    if (!g){ g = { cat:e.cat, itens:[] }; grupos.push(g); }
+    g.itens.push(e);
+  });
+
+  alvo.innerHTML = grupos.map(function(g){
+    return '<div class="card"><h2>' + g.cat + '</h2>' +
+           g.itens.map(linhaItem).join('') + '</div>';
+  }).join('');
+
+  marcarRolagemLateral();
+}
+
+/* Mede a altura real do bloco congelado (cabeçalho + abas, não só o <header>)
+   e publica em --h-cabecalho. Medindo só o header, a barra de busca gruda por
+   baixo das abas e desaparece ao rolar — o nav é opaco e tem z-index maior. */
+(function medirCabecalho(){
+  var alvo = document.querySelector('.topo');
+  if (!alvo) return;
+  var aplicar = function(){
+    document.documentElement.style.setProperty(
+      '--h-cabecalho', alvo.getBoundingClientRect().height + 'px');
+  };
+  aplicar();
+  window.addEventListener('resize', aplicar);
+  if (window.ResizeObserver) new ResizeObserver(aplicar).observe(alvo);
+})();
+
+/* Sem sinal nenhum o dedo não descobre que tem aba fora da tela. Marca só quem
+   REALMENTE rola: no <nav> quem rola é ele, e o .abas de dentro só é largo. */
+function marcarRolagemLateral(){
+  var faixas = document.querySelectorAll('nav, .abas, .linha-filtros');
+  faixas.forEach(function(f){
+    var ovx = getComputedStyle(f).overflowX;
+    var rolavel = (ovx === 'auto' || ovx === 'scroll') && f.scrollWidth > f.clientWidth + 2;
+    f.classList.toggle('rola-lateral', rolavel);
+  });
+}
+window.addEventListener('resize', marcarRolagemLateral);
+
+document.getElementById('lista').addEventListener('click', function(ev){
+  var botao = ev.target.closest('button[data-url]');
+  if (botao) copiar(botao.getAttribute('data-url'), botao);
+});
+
+/* Abre mostrando tudo: a tela tem que servir sem ninguém escolher nada. */
+montarAbas();
+render();
+</script>
+</body>
+</html>
