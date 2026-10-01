@@ -1,0 +1,25 @@
+{
+  "id": "/painel-manutencao.html",
+  "name": "Painel de Manutenção",
+  "short_name": "Manutenção",
+  "start_url": "/painel-manutencao.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f0f2f5",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-man-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-man-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
