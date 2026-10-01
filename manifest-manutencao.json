@@ -1,8 +1,8 @@
 {
-  "id": "/painel-manutencao.html",
+  "id": "/manutencao-angelica/painel-manutencao.html",
   "name": "Painel de Manutenção",
   "short_name": "Manutenção",
-  "start_url": "/painel-manutencao.html",
+  "start_url": "/manutencao-angelica/painel-manutencao.html",
   "scope": "/",
   "display": "standalone",
   "background_color": "#f0f2f5",
