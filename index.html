@@ -24,6 +24,8 @@
     --accent-ink: #6E4B18;
     --structural: #2E3A59;
     --shadow: 0 1px 2px rgba(26,31,43,0.04), 0 8px 20px -12px rgba(26,31,43,0.18);
+    --ok: #15803d; --ok-halo: #dcfce7; --fora: #b91c1c; --fora-halo: #fee2e2;
+    --aviso: #b45309; --aviso-halo: #fef3c7; --apagado: #cbd5e1; --borda-fora: #f87171;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -38,6 +40,8 @@
       --accent-ink: #F1C98C;
       --structural: #A8B3CC;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.55);
+      --ok: #4ade80; --ok-halo: rgba(74,222,128,.18); --fora: #f87171; --fora-halo: rgba(248,113,113,.2);
+      --aviso: #fbbf24; --aviso-halo: rgba(251,191,36,.18); --apagado: #3b4356; --borda-fora: #f87171;
     }
   }
   :root[data-theme="dark"] {
@@ -51,6 +55,8 @@
     --accent-ink: #F1C98C;
     --structural: #A8B3CC;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.55);
+    --ok: #4ade80; --ok-halo: rgba(74,222,128,.18); --fora: #f87171; --fora-halo: rgba(248,113,113,.2);
+    --aviso: #fbbf24; --aviso-halo: rgba(251,191,36,.18); --apagado: #3b4356; --borda-fora: #f87171;
   }
   :root[data-theme="light"] {
     --bg: #EEF1F6;
@@ -63,6 +69,8 @@
     --accent-ink: #6E4B18;
     --structural: #2E3A59;
     --shadow: 0 1px 2px rgba(26,31,43,0.04), 0 8px 20px -12px rgba(26,31,43,0.18);
+    --ok: #15803d; --ok-halo: #dcfce7; --fora: #b91c1c; --fora-halo: #fee2e2;
+    --aviso: #b45309; --aviso-halo: #fef3c7; --apagado: #cbd5e1; --borda-fora: #f87171;
   }
 
   * { box-sizing: border-box; }
@@ -187,6 +195,28 @@
     margin: 0;
   }
 
+  /* ── Card Internet: farol por prédio e operadora, com o uso de agora ──────── */
+  .card-rede { justify-content: flex-start; gap: 12px; }
+  @media (min-width: 640px) { .card-rede { grid-column: span 2; } }
+  .card-rede.alerta { border-color: var(--borda-fora); box-shadow: 0 0 0 1px var(--borda-fora), var(--shadow); }
+  .rede-cab { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .rede-estado { font-size: 13px; font-weight: 600; white-space: nowrap; color: var(--muted); }
+  .rede-estado.ok { color: var(--ok); } .rede-estado.fora { color: var(--fora); }
+  .rede-estado.aviso { color: var(--aviso); }
+  .rede-grade { display: flex; flex-direction: column; gap: 7px; }
+  .rede-linha { display: grid; grid-template-columns: 1fr 112px 112px; align-items: center; gap: 12px; font-size: 14px; }
+  .rede-predio { font-weight: 600; }
+  .rede-linha.off .rede-predio, .rede-linha.off .rede-op { color: var(--muted); font-weight: 400; }
+  .rede-op { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; white-space: nowrap; }
+  .rede-uso { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .dot.ok { background: var(--ok); box-shadow: 0 0 0 3px var(--ok-halo); }
+  .dot.fora { background: var(--fora); box-shadow: 0 0 0 3px var(--fora-halo); }
+  .dot.aviso { background: var(--aviso); box-shadow: 0 0 0 3px var(--aviso-halo); }
+  .dot.off { background: var(--apagado); }
+  .rede-rodape { font-size: 12px; color: var(--muted); margin: 2px 0 0; }
+  @media (max-width: 420px) { .rede-linha { grid-template-columns: 1fr auto auto; gap: 10px; } }
+
   footer {
     margin-top: 40px;
     font-size: 12.5px;
@@ -272,6 +302,14 @@
   <div class="category">
     <h2 class="category-title">Operação</h2>
     <div class="grid">
+      <!-- Lê rede.angelicastudios.com.br/api/status (público: só cores e uso).
+           Sem resposta, o card fica apagado mas continua levando ao módulo. -->
+      <a class="card card-rede" id="cardRede" href="https://rede.angelicastudios.com.br" target="_blank">
+        <div class="rede-cab"><p class="card-name">Internet</p><span class="rede-estado" id="redeEstado"></span></div>
+        <div class="rede-grade" id="redeGrade"></div>
+        <p class="rede-rodape" id="redeRodape"></p>
+      </a>
+
       <a class="card" href="https://lavanderia.angelicastudios.com.br" target="_blank">
         <p class="card-name">Lavanderia</p>
         <p class="card-desc">Status das máquinas, sessões ativas e histórico de uso.</p>
@@ -343,6 +381,55 @@ if (!appInstalado) {
 // proibe o modulo de se fechar sozinho, e o botao "Menu" dele acaba abrindo um
 // SEGUNDO painel em vez de voltar pra este. Todos os destinos sao sistemas
 // nossos (inquilinos / lavanderia / este dominio), entao o vinculo e seguro.
+
+// Card Internet: farol de cada operadora por prédio + o uso de agora (Mbps).
+// Lê ao abrir e ao voltar para o painel — sem atualização automática.
+(function cardInternet() {
+  const URL_STATUS = 'https://rede.angelicastudios.com.br/api/status';
+  const card = document.getElementById('cardRede');
+  if (!card) return;
+  const DOT = { ok: 'ok', fora: 'fora', instavel: 'aviso', sem_dado: 'off' };
+  const esc = t => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const op = (nome, o) => {
+    const uso = o && o.estado !== 'fora' && o.down_mbps != null ? ` <span class="rede-uso">↓ ${o.down_mbps}</span>` : '';
+    return `<span class="rede-op"><i class="dot ${o ? DOT[o.estado] || 'off' : 'off'}"></i>${nome}${uso}</span>`;
+  };
+  const linha = p => {
+    const ops = p.monitorado ? p.ops : [];
+    const de = n => ops.find(o => o.nome === n);
+    return `<div class="rede-linha${p.monitorado ? '' : ' off'}"><span class="rede-predio">${esc(p.nome)}</span>` +
+           op('Vivo', de('Vivo')) + op('Claro', de('Claro')) + '</div>';
+  };
+  const PIOR = ['fora', 'aviso', 'off', 'ok'];
+  function desenhar(d) {
+    const mon = d.predios.filter(p => p.monitorado);
+    const pior = mon.slice().sort((a, b) => PIOR.indexOf(a.classe) - PIOR.indexOf(b.classe))[0];
+    const est = document.getElementById('redeEstado');
+    est.className = 'rede-estado ' + (pior ? pior.classe : 'off');
+    est.textContent = pior ? (mon.length > 1 && pior.classe !== 'ok' ? pior.nome + ': ' : '') + pior.texto : '';
+    card.classList.toggle('alerta', !!pior && pior.classe === 'fora');
+    document.getElementById('redeGrade').innerHTML = d.predios.map(linha).join('');
+    document.getElementById('redeRodape').textContent = d.atualizado ? 'atualizado às ' + d.atualizado.slice(11, 16) : '';
+  }
+  function semResposta() {
+    const est = document.getElementById('redeEstado');
+    est.className = 'rede-estado off';
+    est.textContent = 'sem resposta';
+    card.classList.remove('alerta');
+    if (!document.getElementById('redeGrade').innerHTML) {
+      document.getElementById('redeGrade').innerHTML =
+        ['Angelica 4', 'Angelica 1 e 5', 'Angelica 2', 'Angelica 3'].map(n => linha({ nome: n, monitorado: false })).join('');
+    }
+  }
+  function carregar() {
+    fetch(URL_STATUS, { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(desenhar)
+      .catch(semResposta);
+  }
+  carregar();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) carregar(); });
+})();
 </script>
 </body>
 </html>
