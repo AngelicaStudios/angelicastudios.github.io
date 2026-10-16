@@ -258,13 +258,17 @@ var ENDERECOS = [
   { cat:'Financeiro', nome:'Saleskammerer — arquivo 2019 a 2025',
     url:'https://sk.angelicastudios.com.br', onde:'VPS', quem:'Pessoal' },
 
-  /* ── Operação ────────────────────────────────────────────────────────── */
-  { cat:'Operação', nome:'Internet — operadoras no ar e quedas',
+  /* ── Automação (16/10/2026) ─────────────────────────────────────────── */
+  /* Os três painéis de equipamento com farol ao vivo, o mesmo segmento que o
+     Painel de Gestão ganhou em 15/10 — índice e hub com as mesmas categorias. */
+  { cat:'Automação', nome:'Internet — operadoras no ar e quedas',
     url:'https://rede.angelicastudios.com.br', onde:'VPS' },
-  { cat:'Operação', nome:'Câmeras — imagem, gravação e foto de cada câmera',
+  { cat:'Automação', nome:'Câmeras — imagem, gravação e foto de cada câmera',
     url:'https://rede.angelicastudios.com.br/cameras', onde:'VPS' },
-  { cat:'Operação', nome:'Portaria — toques do interfone e abrir o portão',
+  { cat:'Automação', nome:'Portaria — toques do interfone e abrir o portão',
     url:'https://rede.angelicastudios.com.br/portaria', onde:'VPS' },
+
+  /* ── Operação ────────────────────────────────────────────────────────── */
   { cat:'Operação', nome:'Lavanderia — painel',
     url:'https://lavanderia.angelicastudios.com.br', onde:'VPS' },
   { cat:'Operação', nome:'Lavanderia — usar máquina (QR code)',
@@ -300,7 +304,7 @@ var ENDERECOS = [
     url:'rotina automática, sem endereço', onde:'VPS', semTela:true, semUrl:true }
 ];
 
-var CATEGORIAS = ['Todos', 'Locação', 'Financeiro', 'Operação', 'Sistema'];
+var CATEGORIAS = ['Todos', 'Locação', 'Financeiro', 'Automação', 'Operação', 'Sistema'];
 var catAtiva = 'Todos';
 
 /* O hub abre cada módulo em aba nova; se o Menu navegasse, ficariam dois
