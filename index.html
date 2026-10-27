@@ -198,6 +198,13 @@
   /* ── Card Internet: farol por prédio e operadora, com o uso de agora ──────── */
   .card-rede { justify-content: flex-start; gap: 12px; }
   @media (min-width: 640px) { .card-rede { grid-column: span 2; } }
+  /* Automação (27/10/2026, pedido dele): com o 4º card (WhatsApp) a grade de 3
+     colunas deixava o Internet largo e um buraco embaixo. Só nesta seção: 2 colunas
+     iguais, os 4 cards do mesmo tamanho, em pares. No celular segue 1 coluna. */
+  @media (min-width: 640px) {
+    .grid-automacao { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-automacao .card-rede { grid-column: auto; }
+  }
   .card-rede.alerta { border-color: var(--borda-fora); box-shadow: 0 0 0 1px var(--borda-fora), var(--shadow); }
   .rede-cab { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
   .rede-estado { font-size: 13px; font-weight: 600; white-space: nowrap; color: var(--muted); }
@@ -308,7 +315,7 @@
        saíram de Operação, que estava com cartões demais. Pedido dele. -->
   <div class="category">
     <h2 class="category-title">Automação</h2>
-    <div class="grid">
+    <div class="grid grid-automacao">
       <!-- Lê rede.angelicastudios.com.br/api/status (público: só cores e uso).
            Sem resposta, o card fica apagado mas continua levando ao módulo. -->
       <a class="card card-rede" id="cardRede" href="https://rede.angelicastudios.com.br" target="_blank">
